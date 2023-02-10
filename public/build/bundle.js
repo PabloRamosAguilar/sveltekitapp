@@ -2616,16 +2616,16 @@ var app = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[3] = list[i];
+    	child_ctx[4] = list[i];
     	return child_ctx;
     }
 
-    // (17:0) {#each data as articulo }
+    // (22:0) {#each datosFiltrados as articulo }
     function create_each_block(ctx) {
-    	let t0_value = /*articulo*/ ctx[3].nombre + "";
+    	let t0_value = /*articulo*/ ctx[4].nombre + "";
     	let t0;
     	let t1;
-    	let t2_value = /*articulo*/ ctx[3].comentario + "";
+    	let t2_value = /*articulo*/ ctx[4].comentario + "";
     	let t2;
     	let br0;
     	let t3;
@@ -2639,8 +2639,8 @@ var app = (function () {
     			br0 = element("br");
     			t3 = space();
     			br1 = element("br");
-    			add_location(br0, file$1, 17, 44, 439);
-    			add_location(br1, file$1, 18, 3, 447);
+    			add_location(br0, file$1, 22, 44, 572);
+    			add_location(br1, file$1, 23, 3, 580);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, t0, anchor);
@@ -2651,8 +2651,8 @@ var app = (function () {
     			insert_dev(target, br1, anchor);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*data*/ 1 && t0_value !== (t0_value = /*articulo*/ ctx[3].nombre + "")) set_data_dev(t0, t0_value);
-    			if (dirty & /*data*/ 1 && t2_value !== (t2_value = /*articulo*/ ctx[3].comentario + "")) set_data_dev(t2, t2_value);
+    			if (dirty & /*datosFiltrados*/ 2 && t0_value !== (t0_value = /*articulo*/ ctx[4].nombre + "")) set_data_dev(t0, t0_value);
+    			if (dirty & /*datosFiltrados*/ 2 && t2_value !== (t2_value = /*articulo*/ ctx[4].comentario + "")) set_data_dev(t2, t2_value);
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(t0);
@@ -2668,7 +2668,7 @@ var app = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(17:0) {#each data as articulo }",
+    		source: "(22:0) {#each datosFiltrados as articulo }",
     		ctx
     	});
 
@@ -2686,18 +2686,18 @@ var app = (function () {
     	let current;
 
     	function buscar_busqueda_binding(value) {
-    		/*buscar_busqueda_binding*/ ctx[2](value);
+    		/*buscar_busqueda_binding*/ ctx[3](value);
     	}
 
     	let buscar_props = {};
 
-    	if (/*busqueda*/ ctx[1] !== void 0) {
-    		buscar_props.busqueda = /*busqueda*/ ctx[1];
+    	if (/*busqueda*/ ctx[0] !== void 0) {
+    		buscar_props.busqueda = /*busqueda*/ ctx[0];
     	}
 
     	buscar = new Buscar({ props: buscar_props, $$inline: true });
     	binding_callbacks.push(() => bind(buscar, 'busqueda', buscar_busqueda_binding));
-    	let each_value = /*data*/ ctx[0];
+    	let each_value = /*datosFiltrados*/ ctx[1];
     	validate_each_argument(each_value);
     	let each_blocks = [];
 
@@ -2718,8 +2718,8 @@ var app = (function () {
 
     			t2 = space();
     			hr1 = element("hr");
-    			add_location(hr0, file$1, 14, 0, 363);
-    			add_location(hr1, file$1, 20, 0, 460);
+    			add_location(hr0, file$1, 19, 0, 486);
+    			add_location(hr1, file$1, 25, 0, 593);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -2741,16 +2741,16 @@ var app = (function () {
     		p: function update(ctx, [dirty]) {
     			const buscar_changes = {};
 
-    			if (!updating_busqueda && dirty & /*busqueda*/ 2) {
+    			if (!updating_busqueda && dirty & /*busqueda*/ 1) {
     				updating_busqueda = true;
-    				buscar_changes.busqueda = /*busqueda*/ ctx[1];
+    				buscar_changes.busqueda = /*busqueda*/ ctx[0];
     				add_flush_callback(() => updating_busqueda = false);
     			}
 
     			buscar.$set(buscar_changes);
 
-    			if (dirty & /*data*/ 1) {
-    				each_value = /*data*/ ctx[0];
+    			if (dirty & /*datosFiltrados*/ 2) {
+    				each_value = /*datosFiltrados*/ ctx[1];
     				validate_each_argument(each_value);
     				let i;
 
@@ -2808,13 +2808,14 @@ var app = (function () {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Articulos', slots, []);
     	let data = [];
-    	let busqueda = "Pepe";
+    	let datosFiltrados = [];
 
     	onMount(async () => {
     		const response = await fetch('https://raw.githubusercontent.com/PabloRamosAguilar/JSON/main/comentarios.JSON');
-    		$$invalidate(0, data = await response.json());
+    		$$invalidate(2, data = await response.json());
     	});
 
+    	let busqueda = "";
     	const writable_props = [];
 
     	Object.keys($$props).forEach(key => {
@@ -2823,21 +2824,34 @@ var app = (function () {
 
     	function buscar_busqueda_binding(value) {
     		busqueda = value;
-    		$$invalidate(1, busqueda);
+    		$$invalidate(0, busqueda);
     	}
 
-    	$$self.$capture_state = () => ({ onMount, Buscar, data, busqueda });
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		Buscar,
+    		data,
+    		datosFiltrados,
+    		busqueda
+    	});
 
     	$$self.$inject_state = $$props => {
-    		if ('data' in $$props) $$invalidate(0, data = $$props.data);
-    		if ('busqueda' in $$props) $$invalidate(1, busqueda = $$props.busqueda);
+    		if ('data' in $$props) $$invalidate(2, data = $$props.data);
+    		if ('datosFiltrados' in $$props) $$invalidate(1, datosFiltrados = $$props.datosFiltrados);
+    		if ('busqueda' in $$props) $$invalidate(0, busqueda = $$props.busqueda);
     	};
 
     	if ($$props && "$$inject" in $$props) {
     		$$self.$inject_state($$props.$$inject);
     	}
 
-    	return [data, busqueda, buscar_busqueda_binding];
+    	$$self.$$.update = () => {
+    		if ($$self.$$.dirty & /*data, busqueda*/ 5) {
+    			$$invalidate(1, datosFiltrados = data.filter(articulo => RegExp(busqueda, "i").test(articulo.nombre)));
+    		}
+    	};
+
+    	return [busqueda, datosFiltrados, data, buscar_busqueda_binding];
     }
 
     class Articulos extends SvelteComponentDev {
